@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: contact-service
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        show_sql: true
+        format_sql: true
+  datasource:
+    username: sa
+    password: password
+    url: jdbc:h2:mem:testdb
+  h2:
+    console.enabled: true
+    console.path: /h2-console
+service:
+  contactmanager:
+    contact-service:
+      url: /jpmorgan/contactmanager/v1
+      path: /users
+#Logging properties
+Logging:
+  level:
+    root: ${LOGGING_LEVEL:INFO}
+  path: ${LOG_FOLDER:${user.home}/logs}
+
+# You can override the values with environment variables
+server:
+  port: ${SERVER_PORT:9030}
+  servlet:
+    context-path: ${CONTEXT_PATH:/contact-service}
+
+# You can override the messages with environment variables
+cinemaTickets:
+  issuingParty:
+    name: third-party
+
+  validation:
+    noOfTickets:
+      allowed: ${CINEMA_TICKETS_VALIDATION_NO_OF_TICKETS_ALLOWED:22}
+      error: ${CINEMA_TICKETS_VALIDATION_NO_OF_TICKETS_ERROR:You cannot purchase more than %d tickets}
+    adultPresence:
+      error: ${CINEMA_TICKETS_VALIDATION_ADULT_PRESENCE_ERROR:You cannot book Child/Infant ticket without Adult ticket}
+  prices:
+    INFANT: ${CINEMA_TICKETS_PRICES_INFANT:0}
+    CHILD: ${CINEMA_TICKETS_PRICES_CHILD:10}
+    ADULT: ${CINEMA_TICKETS_PRICES_ADULT:20}

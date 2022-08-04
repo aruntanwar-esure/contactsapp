@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: contact-service
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
+        show_sql: true
+        format_sql: true
+  datasource:
+    username: root
+    password: RootNow8*8!!
+    url: jdbc:mysql://localhost:3306/local?allowPublicKeyRetrieval=true&useSSL=false
+  h2:
+    console.enabled: true
+    console.path: /h2-console
+#Logging properties
+Logging:
+  level:
+    root: ${LOGGING_LEVEL:INFO}
+  path: ${LOG_FOLDER:${user.home}/logs}
+
+# You can override the values with environment variables
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: ${CONTEXT_PATH:/contact-service}
