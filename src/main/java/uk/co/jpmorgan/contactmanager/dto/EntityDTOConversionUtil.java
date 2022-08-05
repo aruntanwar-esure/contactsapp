@@ -9,26 +9,29 @@ import uk.co.jpmorgan.contactmanager.exceptions.UserServiceInternalServerExcepti
 import uk.co.jpmorgan.contactmanager.services.UserServiceImpl;
 
 public class EntityDTOConversionUtil {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
-    private static ObjectMapper mapper = new ObjectMapper();
+	private EntityDTOConversionUtil() {
+	}
 
-    public static UserResponseDTO convertEntityToDTO(User entity) {
-        try {
-            return mapper.convertValue(entity, new TypeReference<UserResponseDTO>() {
-            });
-        } catch (Exception e) {
-            LOGGER.error("Error in converting user to dto", e);
-            throw new UserServiceInternalServerException("Data processing failed, please contact helpdesk");
-        }
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+	private static ObjectMapper mapper = new ObjectMapper();
 
-    public static User covertDTOToEntity(UserRequestDTO entity) {
-        try {
-            return mapper.convertValue(entity, new TypeReference<User>() {
-            });
-        } catch (IllegalArgumentException e) {
-            LOGGER.error("Error in converting dto to user", e);
-            throw new UserServiceInternalServerException("Data processing failed, please contact helpdesk");
-        }
-    }
+	public static UserResponseDTO convertEntityToDTO(User entity) {
+		try {
+			return mapper.convertValue(entity, new TypeReference<UserResponseDTO>() {
+			});
+		} catch (Exception e) {
+			LOGGER.error("Error in converting user to dto", e);
+			throw new UserServiceInternalServerException("Data processing failed, please contact helpdesk");
+		}
+	}
+
+	public static User covertDTOToEntity(UserRequestDTO entity) {
+		try {
+			return mapper.convertValue(entity, new TypeReference<User>() {
+			});
+		} catch (IllegalArgumentException e) {
+			LOGGER.error("Error in converting dto to user", e);
+			throw new UserServiceInternalServerException("Data processing failed, please contact helpdesk");
+		}
+	}
 }

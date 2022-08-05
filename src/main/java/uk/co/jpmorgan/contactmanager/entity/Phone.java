@@ -1,63 +1,58 @@
 package uk.co.jpmorgan.contactmanager.entity;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
 
-import javax.persistence.*;
-import java.util.Date;
+import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "phone")
 public class Phone {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	public static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
-    private User user;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "international_dial_code")
-    private String internationalDialCode;
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	@JsonIgnore
+	private User user;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
+	@Column(name = "international_dial_code", nullable = false, length = 3)
+	private String internationalDialCode;
 
-    @Column(name = "extension_number")
-    private String extensionNumber;
+	@Column(name = "phone_number", nullable = false)
+	private Long phoneNumber;
 
-    @Column(updatable = false)
-    private Date created_At;
-    private Date updated_At;
+	@Column(name = "extension_number")
+	private Integer extensionNumber;
 
-    @PrePersist
-    protected void onCreate() {
-        this.created_At = new Date();
-    }
+	@Column(updatable = false)
+	private LocalDate createdAt;
+	private LocalDate updatedAt;
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updated_At = new Date();
-    }
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = LocalDate.parse(LocalDate.now().toString(), dateFormatter);
+	}
 
-    @Override
-    public boolean equals(Object other) {
-        boolean result = false;
-        if (other instanceof Phone) {
-            Phone that = (Phone) other;
-            result = (this.getPhoneNumber().equals(that.getPhoneNumber())
-                    && this.getInternationalDialCode().equals(that.getInternationalDialCode())
-                    && this.getExtensionNumber().equals(that.getExtensionNumber()));
-        }
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Phone: Inter Dial Code- " + this.internationalDialCode + " Main: "
-                + this.phoneNumber + " Ext: " + this.extensionNumber;
-    }
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = LocalDate.parse(LocalDate.now().toString(), dateFormatter);
+	}
 }

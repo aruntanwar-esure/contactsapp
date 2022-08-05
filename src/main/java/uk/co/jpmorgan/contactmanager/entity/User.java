@@ -1,52 +1,64 @@
 package uk.co.jpmorgan.contactmanager.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
+@Table(name = "user_info")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	public static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    //OneToMany with Phone
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    private List<Phone> phoneNumbers;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    //OneToOne with Address
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
-    private Address address;
+	// OneToMany with Phone
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+	private List<Phone> phoneNumbers;
 
-    @JsonProperty("firstName")
-    @NotBlank(message = "First name cannot be blank")
-    private String firstName;
+	// OneToOne with Address
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+	private Address address;
 
-    @JsonProperty("middleName")
-    private String middleName;
+	@Column(nullable = false, length = 20)
+	private String firstName;
 
-    @JsonProperty("lastName")
-    @NotBlank(message = "Last name cannot be blank")
-    private String lastName;
+	@Column(length = 20)
+	private String middleName;
 
-    @Column(updatable = false)
-    private Date created_At;
-    private Date updated_At;
+	@Column(nullable = false, length = 20)
+	private String lastName;
 
-    @PrePersist
-    protected void onCreate() {
-        this.created_At = new Date();
-    }
+	@Column(updatable = false)
+	private LocalDate createdAt;
+	private LocalDate updatedAt;
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updated_At = new Date();
-    }
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = LocalDate.parse(LocalDate.now().toString(), dateFormatter);
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = LocalDate.parse(LocalDate.now().toString(), dateFormatter);
+	}
 }

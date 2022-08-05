@@ -30,7 +30,7 @@ public class AddressValidator
         }
         String postCode = address.getPostCode();
         Pattern pattern = Pattern.compile(POSTCODE_REGEX);
-        if (!pattern.matcher(postCode).matches()) {
+        if (postCode!=null && !pattern.matcher(postCode).matches()) {
             context.disableDefaultConstraintViolation(); // disable violation message
             context.buildConstraintViolationWithTemplate(String.format(ERROR_POST_CODE, postCode)).addConstraintViolation();
             return false;

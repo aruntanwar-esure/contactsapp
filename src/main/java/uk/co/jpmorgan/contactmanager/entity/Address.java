@@ -1,62 +1,76 @@
 package uk.co.jpmorgan.contactmanager.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "address")
 public class Address {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	public static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    @OneToOne
-    @JoinColumn(name="user_id",nullable = false)
-    @JsonIgnore
-    private User user;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "house_number")
-    private String houseNumber;
+	@OneToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	@JsonIgnore
+	private User user;
 
-    @Column(name = "flat_number")
-    private String flatNumber;
+	@Column(name = "house_number", length = 5)
+	private String houseNumber;
 
-    @Column(name = "building_number")
-    private String buildingNumber;
+	@Column(name = "flat_number", length = 5)
+	private String flatNumber;
 
-    @Column(name = "building_name")
-    private String buildingName;
+	@Column(name = "building_number", length = 5)
+	private String buildingNumber;
 
-    @Column(name = "street")
-    private String street;
+	@Column(name = "building_name", length = 50)
+	private String buildingName;
 
-    @Column(name = "county")
-    private String county;
+	@Column(name = "street", nullable = false, length = 50)
+	private String street;
 
-    @Column(name = "postcode")
-    private String postCode;
+	@Column(name = "county", length = 20)
+	private String county;
 
-    @Column(name = "city")
-    private String city;
+	@Column(name = "postcode", nullable = false)
+	private String postCode;
 
-    @Column(name = "country_code")
-    private String countryCode;
+	@Column(name = "city", nullable = false, length = 20)
+	private String city;
 
-    @Column(updatable = false)
-    private Date created_At;
-    private Date updated_At;
+	@Column(name = "country_code", nullable = false, length = 2)
+	private String countryCode;
 
-    @PrePersist
-    protected void onCreate() {
-        this.created_At = new Date();
-    }
+	@Column(updatable = false)
+	private LocalDate createdAt;
+	private LocalDate updatedAt;
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updated_At = new Date();
-    }
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = LocalDate.parse(LocalDate.now().toString(), dateFormatter);
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = LocalDate.parse(LocalDate.now().toString(), dateFormatter);
+	}
 }

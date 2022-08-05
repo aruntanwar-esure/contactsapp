@@ -19,44 +19,45 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class UserRepositoryTest {
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    @Test
-    public void shouldSaveUser() {
-        AddressDTO addressDTO = AddressDTO.builder().buildingNumber("10")
-                .houseNumber("110").city("London").postCode("IG88DL").county("Essex")
-                .street("Morgan Way").buildingName("MorganMan").flatNumber("20").countryCode("GB").build();
-        PhoneDTO phoneDTO = PhoneDTO.builder().internationalDialCode("+44").phoneNo("7889434000").extensionNo("123").build();
-        List<PhoneDTO> phoneDTOS = Arrays.asList(phoneDTO);
-        UserRequestDTO userRequestDTO = UserRequestDTO.builder().firstName("David").middleName("Well").lastName("Jones")
-                .address(addressDTO).phones(phoneDTOS).build();
-        User user = EntityDTOConversionUtil.covertDTOToEntity(userRequestDTO);
-        user.getPhoneNumbers().forEach(phone -> phone.setUser(user));
-        user.getAddress().setUser(user);
+	@Test
+	public void shouldSaveUser() {
+		AddressDTO addressDTO = AddressDTO.builder().buildingNumber("10").houseNumber("110").city("London")
+				.postCode("IG88DL").county("Essex").street("Morgan Way").buildingName("MorganMan").flatNumber("20")
+				.countryCode("GB").build();
+		PhoneDTO phoneDTO = PhoneDTO.builder().internationalDialCode("+44").phoneNumber(7889434000L)
+				.extensionNumber(123).build();
+		List<PhoneDTO> phoneDTOS = Arrays.asList(phoneDTO);
+		UserRequestDTO userRequestDTO = UserRequestDTO.builder().firstName("David").middleName("Well").lastName("Jones")
+				.address(addressDTO).phoneNumbers(phoneDTOS).build();
+		User user = EntityDTOConversionUtil.covertDTOToEntity(userRequestDTO);
+		user.getPhoneNumbers().forEach(phone -> phone.setUser(user));
+		user.getAddress().setUser(user);
 
-        User savedUser = userRepository.save(user);
-        assertThat(savedUser.getId()).isNotNull();
-        assertThat(savedUser.getCreated_At()).isNotNull();
-    }
+		User savedUser = userRepository.save(user);
+		assertThat(savedUser.getId()).isNotNull();
+		assertThat(savedUser.getCreatedAt()).isNotNull();
+	}
 
-    @Test
-    public void shouldReturnUser() {
-        AddressDTO addressDTO = AddressDTO.builder().buildingNumber("10")
-                .houseNumber("110").city("London").postCode("IG88DL").county("Essex")
-                .street("Morgan Way").buildingName("MorganMan").flatNumber("20").countryCode("GB").build();
-        PhoneDTO phoneDTO = PhoneDTO.builder().internationalDialCode("+44").phoneNo("7889434000").extensionNo("123").build();
-        List<PhoneDTO> phoneDTOS = Arrays.asList(phoneDTO);
-        UserRequestDTO userRequestDTO = UserRequestDTO.builder().firstName("David").middleName("Well").lastName("Jones")
-                .address(addressDTO).phones(phoneDTOS).build();
-        User user = EntityDTOConversionUtil.covertDTOToEntity(userRequestDTO);
-        user.getPhoneNumbers().forEach(phone -> phone.setUser(user));
-        user.getAddress().setUser(user);
+	@Test
+	public void shouldReturnUser() {
+		AddressDTO addressDTO = AddressDTO.builder().buildingNumber("10").houseNumber("110").city("London")
+				.postCode("IG88DL").county("Essex").street("Morgan Way").buildingName("MorganMan").flatNumber("20")
+				.countryCode("GB").build();
+		PhoneDTO phoneDTO = PhoneDTO.builder().internationalDialCode("+44").phoneNumber(7889434000L)
+				.extensionNumber(123).build();
+		List<PhoneDTO> phoneDTOS = Arrays.asList(phoneDTO);
+		UserRequestDTO userRequestDTO = UserRequestDTO.builder().firstName("David").middleName("Well").lastName("Jones")
+				.address(addressDTO).phoneNumbers(phoneDTOS).build();
+		User user = EntityDTOConversionUtil.covertDTOToEntity(userRequestDTO);
+		user.getPhoneNumbers().forEach(phone -> phone.setUser(user));
+		user.getAddress().setUser(user);
 
-        User savedUser = userRepository.save(user);
-        User found = userRepository.getById(savedUser.getId());
+		User savedUser = userRepository.save(user);
+		User found = userRepository.getById(savedUser.getId());
 
-        assertThat(found.getFirstName())
-                .isEqualTo(user.getFirstName());
-    }
+		assertThat(found.getFirstName()).isEqualTo(user.getFirstName());
+	}
 }

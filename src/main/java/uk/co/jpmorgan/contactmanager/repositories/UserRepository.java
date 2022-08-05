@@ -1,11 +1,14 @@
 package uk.co.jpmorgan.contactmanager.repositories;
 
-import uk.co.jpmorgan.contactmanager.entity.User;
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import uk.co.jpmorgan.contactmanager.entity.User;
+
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-   // User findByUsername(String username);
     User getById(Long id);
+    List<User> findByIdIn(List<Long> userIds);
 }
