@@ -8,7 +8,7 @@
 ## Technologies Used
 - Java 1.8
 - Spring Boot 2.4.8
-- Mysql for main app and h2 databases for test
+- Mysql or any other DB for main app and h2 databases for test
 - Jacoco plugin for coverage of tests
 
 ## Features
@@ -32,14 +32,16 @@ Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/
    `git clone https://github.com/projectcheckout/contacts.git`
    Please type this as copy and paste can cause issues in git commands
 2. Change the directory to checked out contacts folder.
-3. In contacts folder, build the project using
+3. Set run time variables for database to override application.yml entries:
+   `JPA_DIALECT, DATASOURCE_USERNAME, DATASOURCE_PASSWORD, DATASOURCE_URL`
+4. In contacts folder, build the project using
    `mvn clean install`
-4. Run using `mvn spring-boot:run`
-5. You can run standalone jar as: <br>
+5. Run using `mvn spring-boot:run`
+6. You can run standalone jar as: <br>
    `$ mvn clean package spring-boot:repackage` <br>
    `$ java -jar target/contacts-0.0.1-SNAPSHOT.jar`
-6. The web application is accessible at: [http://localhost:8080/contact-service](http://localhost:8080/contact-service)
-7. Visit swagger docs at: [http://localhost:8080/contact-service/swagger-ui/](http://localhost:8080/contact-service/swagger-ui/), it has one POST (to create user) and two GET end-points (to get one user putting id in url /users/{id} or list of users putting comma separated user ids in query parameter /users?userIds=1,2)
+7. The web application is accessible at: [http://localhost:8080/contact-service](http://localhost:8080/contact-service)
+8. Visit swagger docs at: [http://localhost:8080/contact-service/swagger-ui/](http://localhost:8080/contact-service/swagger-ui/), it has one POST (to create user) and two GET end-points (to get one user putting id in url /users/{id} or list of users putting comma separated user ids in query parameter /users?userIds=1,2)
 
 ## Constraints
 - User: firstName, lastName, address, phoneNumbers are required

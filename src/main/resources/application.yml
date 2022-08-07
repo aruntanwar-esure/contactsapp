@@ -6,12 +6,12 @@ spring:
       ddl-auto: ${DDL_STRATEGY:create-drop}
     properties:
       hibernate:
-        dialect: ${JPA_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
+        dialect: ${JPA_DIALECT:org.hibernate.dialect.MySQL57Dialect}
         show_sql: ${HIBERNATE_SHOW_SQL:true}
         format_sql: ${HIBERNATE_FORMAT_SQL:true}
   datasource:
     username: ${DATASOURCE_USERNAME:root}
-    password: ${DATASOURCE_PASSWORD:RootNow8*8!!}
+    password: ${DATASOURCE_PASSWORD:pass}
     url: ${DATASOURCE_URL:jdbc:mysql://localhost:3306/local?allowPublicKeyRetrieval=true&useSSL=false}
   h2:
     console.enabled: true
