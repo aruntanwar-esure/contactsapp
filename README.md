@@ -38,10 +38,8 @@ Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/
 5. You can run standalone jar as: <br>
    `$ mvn clean package spring-boot:repackage` <br>
    `$ java -jar target/contacts-0.0.1-SNAPSHOT.jar`
-6. The web application is accessible via http://localhost:8080/contact-service <br>
-   <br>Use http://localhost:8080/contact-service/jpmorgan/contactmanager/v1/users as the post url to create users.
-
-   <br>Use http://localhost:8080/contact-service/jpmorgan/contactmanager/v1/users/{id} to get specific user
+6. The web application is accessible at: [http://localhost:8080/contact-service](http://localhost:8080/contact-service)
+7. Visit swagger docs at: [http://localhost:8080/contact-service/swagger-ui/](http://localhost:8080/contact-service/swagger-ui/), it has one POST (to create user) and two GET end-points (to get one user putting id in url /users/{id} or list of users putting comma separated user ids in query parameter /users?userIds=1,2)
 
 ## Constraints
 - User: firstName, lastName, address, phoneNumbers are required

@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import uk.co.jpmorgan.contactmanager.dto.UserListResponseDTO;
 import uk.co.jpmorgan.contactmanager.dto.UserRequestDTO;
 import uk.co.jpmorgan.contactmanager.dto.UserResponseDTO;
@@ -26,12 +30,18 @@ import uk.co.jpmorgan.contactmanager.services.UserService;
 
 @RestController
 @RequestMapping("/jpmorgan/contactmanager/v1")
+@ApiOperation("Products API")
 public class UserController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;
 
+	@ApiOperation(value = "Saves a user object to store")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created status when user created successfully"),
+			@ApiResponse(code = 400, message = "Bad request status when invalid values provided"),
+			@ApiResponse(code = 500, message = "Internal Server Error when unable to store user due to server error") })
+	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserResponseDTO> saveUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
 		LOGGER.info("Save user call to the service started");
@@ -42,6 +52,11 @@ public class UserController {
 		return new ResponseEntity<>(userResponseDTO, HttpStatus.CREATED);
 	}
 
+	@ApiOperation(value = "Gets a user from the store")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successful status when user returned successfully"),
+			@ApiResponse(code = 400, message = "Bad request status when invalid user id provided"),
+			@ApiResponse(code = 404, message = "Not found status when no user found"),
+			@ApiResponse(code = 500, message = "Internal Server Error when unable to retrieve user due to server error") })
 	@GetMapping("/users/{userId}")
 	public ResponseEntity<UserResponseDTO> retrieveUser(@PathVariable Long userId) {
 		LOGGER.info("Get user call to the service started");
@@ -55,6 +70,11 @@ public class UserController {
 		return new ResponseEntity<>(userResponseDTO, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Gets users from the store")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successful status when users returned successfully"),
+			@ApiResponse(code = 400, message = "Bad request status when invalid user ids provided"),
+			@ApiResponse(code = 404, message = "Not found status when no users found"),
+			@ApiResponse(code = 500, message = "Internal Server Error when unable to retrieve users due to server error") })
 	@GetMapping("/users")
 	public ResponseEntity<UserListResponseDTO> retrieveUsers(@RequestParam List<Long> userIds) {
 		LOGGER.info("Get user call to the service started");

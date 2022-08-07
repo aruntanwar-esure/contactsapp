@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,15 +26,18 @@ import lombok.NoArgsConstructor;
 public class UserRequestDTO {
 	@JsonProperty("firstName")
 	@Size(max = 20)
+	@ApiModelProperty(example = "Robin", required = true)
 	@NotBlank(message = "First name cannot be blank")
 	private String firstName;
 
 	@JsonProperty("middleName")
 	@Size(max = 20)
+	@ApiModelProperty(example = "Stew")
 	private String middleName;
 
 	@JsonProperty("lastName")
 	@Size(max = 20)
+	@ApiModelProperty(example = "Smith", required = true)
 	@NotBlank(message = "Last name cannot be blank")
 	private String lastName;
 

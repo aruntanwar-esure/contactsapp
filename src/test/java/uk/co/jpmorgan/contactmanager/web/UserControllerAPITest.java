@@ -64,7 +64,7 @@ public class UserControllerAPITest {
 
 	@Test
 	public void shouldCreateUser() throws Exception {
-		UserResponseDTO userResponseDTO = UserResponseDTO.builder().userId("123").firstName("David").lastName("Jones")
+		UserResponseDTO userResponseDTO = UserResponseDTO.builder().userId(123L).firstName("David").lastName("Jones")
 				.address(userRequestDTO.getAddress()).phoneNumbers(userRequestDTO.getPhoneNumbers()).build();
 		String userRequestJson = objectMapper.writeValueAsString(userRequestDTO);
 		String userResponseJson = objectMapper.writeValueAsString(userResponseDTO);
@@ -79,7 +79,7 @@ public class UserControllerAPITest {
 
 	@Test
 	public void shouldReturnUser() throws Exception {
-		UserResponseDTO userResponseDTO = UserResponseDTO.builder().userId("123").firstName("David").lastName("Jones")
+		UserResponseDTO userResponseDTO = UserResponseDTO.builder().userId(123L).firstName("David").lastName("Jones")
 				.address(userRequestDTO.getAddress()).phoneNumbers(userRequestDTO.getPhoneNumbers()).build();
 		String userResponseJson = objectMapper.writeValueAsString(userResponseDTO);
 
@@ -92,7 +92,7 @@ public class UserControllerAPITest {
 
 	@Test
 	public void shouldReturnUsers() throws Exception {
-		UserResponseDTO userResponseDTO = UserResponseDTO.builder().userId("123").firstName("David").lastName("Jones")
+		UserResponseDTO userResponseDTO = UserResponseDTO.builder().userId(123L).firstName("David").lastName("Jones")
 				.address(userRequestDTO.getAddress()).phoneNumbers(userRequestDTO.getPhoneNumbers()).build();
 		UserListResponseDTO userListResponseDTO = UserListResponseDTO.builder()
 				.users(Collections.singletonList(userResponseDTO)).build();

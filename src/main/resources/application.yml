@@ -3,24 +3,29 @@ spring:
     name: contact-service
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: ${DDL_STRATEGY:create-drop}
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        show_sql: true
-        format_sql: true
+        dialect: ${JPA_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
+        show_sql: ${HIBERNATE_SHOW_SQL:true}
+        format_sql: ${HIBERNATE_FORMAT_SQL:true}
   datasource:
-    username: root
-    password: RootNow8*8!!
-    url: jdbc:mysql://localhost:3306/local?allowPublicKeyRetrieval=true&useSSL=false
+    username: ${DATASOURCE_USERNAME:root}
+    password: ${DATASOURCE_PASSWORD:RootNow8*8!!}
+    url: ${DATASOURCE_URL:jdbc:mysql://localhost:3306/local?allowPublicKeyRetrieval=true&useSSL=false}
   h2:
     console.enabled: true
     console.path: /h2-console
+  output:
+   ansi:
+    enabled: ALWAYS
 #Logging properties
-Logging:
+logging:
   level:
     root: ${LOGGING_LEVEL:INFO}
-  path: ${LOG_FOLDER:${user.home}/logs}
+  file:
+    max-size: 2MB
+    name: ${LOG_FILE_NAME:logs/contacts.log}
 
 # You can override the values with environment variables
 server:

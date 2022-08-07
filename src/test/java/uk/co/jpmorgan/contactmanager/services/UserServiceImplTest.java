@@ -103,9 +103,9 @@ public class UserServiceImplTest {
 				() -> userService.getUsers(Collections.singletonList(1L)), "UserNotFoundException was expected");
 		Assertions.assertEquals("No users found for ids: [1]", exception.getMessage());
 	}
-	
+
 	@Test
-	public void shouldThrowExceptionForUserIdsAbsent1() {
+	public void shouldThrowExceptionForUserIdsNull() {
 		when(userRepository.findByIdIn(any(List.class))).thenReturn(null);
 		UserNotFoundException exception = Assertions.assertThrows(UserNotFoundException.class,
 				() -> userService.getUsers(Collections.singletonList(1L)), "UserNotFoundException was expected");

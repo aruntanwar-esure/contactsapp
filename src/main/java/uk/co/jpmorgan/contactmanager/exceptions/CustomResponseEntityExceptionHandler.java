@@ -33,7 +33,7 @@ public class CustomResponseEntityExceptionHandler {
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public final Object handleUserNotFoundException(UserNotFoundException exception) {
 		LOGGER.error("No user found: {}", exception.getMessage());
-		return ErrorResponseDTO.builder().status(HttpStatus.BAD_REQUEST.getReasonPhrase())
+		return ErrorResponseDTO.builder().status(HttpStatus.NOT_FOUND.getReasonPhrase())
 				.message(exception.getMessage()).build();
 	}
 

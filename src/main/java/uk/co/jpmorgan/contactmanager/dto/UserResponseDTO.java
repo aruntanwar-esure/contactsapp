@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,15 +25,19 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({ "userId", "firstName", "middleName", "lastName", "address", "phoneNumbers", "createdAt" })
 public class UserResponseDTO {
 	@JsonProperty("id")
-	private String userId;
+	@ApiModelProperty(example = "123", position = 1)
+	private Long userId;
 
 	@JsonProperty("firstName")
+	@ApiModelProperty(example = "Robin")
 	private String firstName;
 
 	@JsonProperty("middleName")
+	@ApiModelProperty(example = "Stew")
 	private String middleName;
 
 	@JsonProperty("lastName")
+	@ApiModelProperty(example = "Smith")
 	private String lastName;
 
 	@JsonProperty("address")
@@ -41,7 +46,7 @@ public class UserResponseDTO {
 	@JsonProperty("phoneNumbers")
 	private List<PhoneDTO> phoneNumbers;
 
-	@JsonProperty("createdAt")
+	@ApiModelProperty(example = "2022-08-07")
 	private String createdAt;
 
 	/**
@@ -50,8 +55,12 @@ public class UserResponseDTO {
 	 * @param effectiveFrom
 	 */
 	@JsonProperty("createdAt")
-	public void setEffectiveFrom(Object effectiveFrom) {
-		this.createdAt = Optional.ofNullable(effectiveFrom).map(v -> convertToStringDate(v)).orElse(null);
+	public void setCreatedAt(Object createdAt) {
+		if (createdAt instanceof String) {
+			this.createdAt = (String) createdAt;
+		} else {
+			this.createdAt = Optional.ofNullable(createdAt).map(v -> convertToStringDate(v)).orElse(null);
+		}
 	}
 
 	/**

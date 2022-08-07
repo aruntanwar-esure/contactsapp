@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -102,6 +103,8 @@ public class UserAppIntegrationTest {
 		ResponseEntity<ErrorResponseDTO> responseEntity = testRestTemplate.getForEntity(url + path + "/1",
 				ErrorResponseDTO.class);
 		Assertions.assertEquals("No user found for id: 1", responseEntity.getBody().getMessage());
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
 	}
 
 	@Test
@@ -109,6 +112,7 @@ public class UserAppIntegrationTest {
 		ResponseEntity<ErrorResponseDTO> responseEntity = testRestTemplate.getForEntity(url + path + "/0",
 				ErrorResponseDTO.class);
 		Assertions.assertEquals("User id should be at least 1", responseEntity.getBody().getMessage());
+		Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
 	}
 
 	@Test
